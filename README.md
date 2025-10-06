@@ -106,13 +106,6 @@ CREATE TABLE improvements (
 - The importance of user-centered design in educational software
 - Keeping code modular and readable for future updates
 
-## Lessons Learned
-
-- Practical experience in designing relational databases
-- Tkinter’s flexibility in handling complex layouts
-- The importance of user-centered design in educational software
-- Keeping code modular and readable for future updates
-
 ## What next?
 
 - Deploying the system on a larger scale
@@ -135,5 +128,6 @@ Currently designed for desktop execution. No online deploy link is available yet
 
 For any queries or contributions, please reach out to:
 neilbarot5@gmail.com
+
 
 Thank you for your interest in ProMetric.
