@@ -1,133 +1,111 @@
 # ProMetric Tutoring System
 
-Welcome to **ProMetric** — a user-friendly platform for managing tutoring operations, capturing improvement suggestions, and streamlining workflows for students, tutors, and managers.
+A compact, local desktop application for managing students, tutors (employees), and managers. ProMetric collects improvement suggestions, handles registrations, and provides a small dashboard-driven workflow for staff.
 
 ---
 
-## Motivation
+## Quick start — run the app locally
 
-Education deserves to be data-driven and responsive.  
-The motivation behind building ProMetric was to empower tutoring centers with tools to gather and analyze data for better decision-making. The goal was to create a single platform to manage:
+Prerequisites
 
-- Student and tutor registrations
-- Centralized navigation through a professional dashboard
-- Collecting user-driven suggestions to improve services
+- Python 3.10+ (recommended)
+- MySQL server (local) with an accessible user
+- Git (optional) and a terminal (PowerShell on Windows)
 
----
+Steps (PowerShell)
 
-## What Problem Does ProMetric Solve?
+1. Create and activate a virtual environment
 
-- **Student Engagement:** Many students hesitate to give feedback verbally. ProMetric provides a private and accessible way for them to share suggestions.
-- **Operational Efficiency:** Streamlines registration, login, and staff management.
-- **Continuous Improvement:** Enables management to collect and review ideas directly from users.
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+```
 
----
+2. Install dependencies
 
-## What Does ProMetric Do?
+```powershell
+python -m pip install --upgrade pip
+pip install -r ..\requirements.txt
+```
 
-ProMetric offers:
+3. Ensure the database exists and credentials are correct
 
-- Student registration and login
-- Employee (tutor) registration and login
-- Manager login
-- Centralized dashboard for navigating the system
-- **Suggest Improvement module**:
-  - Allows students, tutors, and managers to submit ideas or suggestions for improving services
-
-*Note:* The original Tutor Feedback feature is paused for a future redesign. The new `improvements` feature is active and working.
-
----
-
-## Technologies Used
-
-- **Programming Language:** Python
-- **GUI Framework:** Tkinter
-- **Database:** MySQL
-- **DB Driver:** mysql-connector-python
-- **Image Handling:** Pillow (PIL)
-
-These technologies were chosen because:
-
-- Python allows rapid development and has strong community support.
-- Tkinter is lightweight and comes bundled with Python.
-- MySQL is a robust and reliable relational database.
-- Pillow supports flexible image processing for GUI applications.
-
----
-
-## Features
-
-- Clean and modern Tkinter GUI
-- Background images for a professional appearance
-- Modular structure with separate files for Views (UI) and Models (Database Logic)
-- Suggest Improvement module:
-  - User-friendly interface for submitting suggestions
-  - Stores suggestions in MySQL for management review
-- Integrated dashboard with quick access to various user portals
-
----
-
-## SQL Table Definition
-
-The `improvements` table stores all submitted suggestions:
+- The app defaults to: host=localhost, user=root, password='', database=prometricdb.
+- If `prometricdb` doesn't exist, create it in MySQL:
 
 ```sql
-CREATE TABLE improvements (
-    improvement_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_type VARCHAR(50),
-    user_id INT,
-    suggestion_text TEXT,
-    submitted_on DATETIME
-);
+CREATE DATABASE prometricdb;
+```
 
-## Challenges Faced
+4. Start the app (from the `Views/` folder)
 
-- Maintaining a modern, attractive UI using only Tkinter
-- Managing database connections and ensuring reliable error handling
-- Deciding to pause certain features (such as the original Tutor Feedback system) for future improvements
+```powershell
+cd Views
+python host.py
+```
 
-## Future Features
+Notes
 
-- Re-introduce tutor-specific feedback, integrated with subject mappings
-- Analytics dashboard for managers to track improvement suggestions
-- User authentication security enhancements
-- Advanced reporting features with export options
+- This is a desktop Tkinter app — it is not a web server. The app connects to a local MySQL instance ("localhost") for data storage.
+- If you use different DB credentials, update the `connect_db()` function in `Views/models.py`.
 
-## Proud Of
+---
 
-- Creating a modular, maintainable code structure
-- Successfully integrating MySQL with a Tkinter GUI
-- Building a simple yet effective system to collect improvement suggestions
+## Folder structure (overview)
 
-## Lessons Learned
+Root of this workspace (relevant parts):
 
-- Practical experience in designing relational databases
-- Tkinter’s flexibility in handling complex layouts
-- The importance of user-centered design in educational software
-- Keeping code modular and readable for future updates
+```
+Views/
+  host.py                      # Main entry screen (launch this to start the app)
+  models.py                    # DB access and app helper functions
+  student_registration.py      # Student registration UI
+  Student_registration.py      # (alternate student registration view)
+  student_login.py             # Student login UI
+  student_dashboard.py         # Student dashboard UI
+  employee_registration.py     # Employee (tutor) registration UI
+  employee_login.py            # Employee login UI
+  employee_dashboard.py        # Employee dashboard UI
+  manager_login.py             # Manager login UI
+  manager_dashboard.py         # Manager dashboard UI
+  feedback.py                  # Feedback / suggestion UI
+  suggest_improvement.py       # Improvement suggestion UI
+  Prometric Logo.png           # Branding / images
+  login_bg.jpg                 # Background image used across login forms
+  migrations/                  # SQL migration files and helper scripts
+    001_add_security_q.sql
+    set_security_answer_plain.py
+```
 
-## What next?
+Notes
 
-- Deploying the system on a larger scale
-- Enhancing the UI with modern frameworks (e.g., custom Tkinter themes or migration  to web technologies)
-- Implementing real-time notifications for management when new suggestions are submitted
+- The `Views/` folder contains both UI code and model helpers; when editing DB code prefer `Views/models.py` for centralized DB logic.
+- Image files used by the UI live alongside the view files.
 
-## Tech Stack
+---
 
-- **Languages:** Python
-- **GUI Framework:** Tkinter
-- **Database:** MySQL
-- **ORM/Queries:** MySQL Connector for Python
-- **Image Processing:** Pillow
+## Developer notes and common commands
 
-## Deployment
+- Entry point: `Views/host.py`
+- DB helper: `Views/models.py`
+- To run the UI from the project root:
 
-Currently designed for desktop execution. No online deploy link is available yet.
+```powershell
+cd Views
+python host.py
+```
+
+- To backfill a user's security Q/A (manual):
+
+```powershell
+python migrations\set_security_answer_plain.py --user_type student --user_id 123 --question "Mother's maiden name" --answer "Smith" --execute
+```
+
+---
 
 ## Contact
 
-For any queries or contributions, please reach out to:
-neilbarot5@gmail.com
+Developer: Neil Barot
+ Email: neilbarot5@gmail.com
 
-
-Thank you for your interest in ProMetric.
+ Thank You for Using ProMetric - A lightweight, data-driven approach to managing tutoring centers — one metric at a time.
