@@ -9,7 +9,6 @@ localhost when run with --execute.
 """
 import argparse
 
-
 def main():
     p = argparse.ArgumentParser()
     p.add_argument('--user_type', choices=['student','employee','manager'], required=True)
